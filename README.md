@@ -8,7 +8,7 @@ To utilize local testing for this module you need to first create a local instan
 ```bash -c  "$(curl -sL https://raw.githubusercontent.com/sdetweil/MagicMirror_scripts/master/raspberry.sh)"```
 [Credits](https://github.com/sdetweil/MagicMirror_scripts) 
 
-Once Magicmirror is installed run ```npm start ServerOnly```
+Once Magicmirror is installed run ```node ServerOnly```
 
 ## Using the module
 

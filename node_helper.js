@@ -1,8 +1,8 @@
 /* Magic Mirror
- * Node Helper: {{MODULE_NAME}}
+ * Node Helper: magic_mirror_face_recognition
  *
- * By {{AUTHOR_NAME}}
- * {{LICENSE}} Licensed.
+ * By Tom Wenzel
+ * MIT Licensed.
  */
 
 var NodeHelper = require("node_helper");
@@ -18,7 +18,7 @@ module.exports = NodeHelper.create({
 	 * argument payload mixed - The payload of the notification.
 	 */
 	socketNotificationReceived: function(notification, payload) {
-		if (notification === "{{MODULE_NAME}}-NOTIFICATION_TEST") {
+		if (notification === "magic_mirror_face_recognition-NOTIFICATION_TEST") {
 			console.log("Working notification system. Notification:", notification, "payload: ", payload);
 			// Send notification
 			this.sendNotificationTest(this.anotherFunction()); //Is possible send objects :)
@@ -27,13 +27,13 @@ module.exports = NodeHelper.create({
 
 	// Example function send notification test
 	sendNotificationTest: function(payload) {
-		this.sendSocketNotification("{{MODULE_NAME}}-NOTIFICATION_TEST", payload);
+		this.sendSocketNotification("magic_mirror_face_recognition-NOTIFICATION_TEST", payload);
 	},
 
 	// this you can create extra routes for your module
 	extraRoutes: function() {
 		var self = this;
-		this.expressApp.get("/{{MODULE_NAME}}/extra_route", function(req, res) {
+		this.expressApp.get("/magic_mirror_face_recognition/extra_route", function(req, res) {
 			// call another function
 			values = self.anotherFunction();
 			res.send(values);

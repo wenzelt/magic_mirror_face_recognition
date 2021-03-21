@@ -16,6 +16,7 @@ This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror
 
 ## Connect to local Magic Mirror via SSH 
 1. run this command in shell: ````ssh pi@raspberrypi.local```` and input credentials
+2. The raspi is configured with VNC viewer. Connect using the above address and credentials
 
 
 ## Using the module

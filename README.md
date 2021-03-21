@@ -2,7 +2,15 @@
 
 This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/).
 
-Todo: Insert description here!
+## Installation 
+1.Install Magic Mirror by running this command:
+    ```bash -c  "$(curl -sL https://raw.githubusercontent.com/sdetweil/MagicMirror_scripts/master/raspberry.sh)"```
+
+2.Navigate to the "modules" folder and pull **this** repo
+3.Run npm install in this folder
+4.To test on a computer, run ````node ServerOnly```` in the "MagicMirror" root directory
+5.To view the Mirror navigate to http://localhost:8080/ in your webbrowser.
+
 
 ## Using the module
 

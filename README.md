@@ -8,4 +8,6 @@ How to connect from desktop:
 * Connect -> ```raspberrypi.local```
 
 <h2> Module Development</h2>
+<p>
 [Magic Mirror 2 Module Documentation](https://docs.magicmirror.builders/development/introduction.html)
+</p>

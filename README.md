@@ -2,7 +2,7 @@
 
 This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/).
 
-Todo: Insert description here!
+This repo is where our facial recognition module for magic mirror lives. 
 
 ## Using the module
 

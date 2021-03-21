@@ -14,6 +14,9 @@ This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror
 
 5.To view the Mirror navigate to http://localhost:8080/ in your webbrowser.
 
+## Connect to local Magic Mirror via SSH 
+1. run this command in shell: ````ssh pi@raspberrypi.local```` and input credentials
+
 
 ## Using the module
 

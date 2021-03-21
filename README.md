@@ -3,6 +3,12 @@
 This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/).
 
 This repo is where our facial recognition module for magic mirror lives. 
+## Local testing
+To utilize local testing for this module you need to first create a local instance of MagicMirror as by running this script: 
+```bash -c  "$(curl -sL https://raw.githubusercontent.com/sdetweil/MagicMirror_scripts/master/raspberry.sh)"```
+[Credits](https://github.com/sdetweil/MagicMirror_scripts) 
+
+Once Magicmirror is installed run ```npm start ServerOnly```
 
 ## Using the module
 

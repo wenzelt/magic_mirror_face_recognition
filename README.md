@@ -6,3 +6,6 @@ How to connect from desktop:
 * [Install VNC viewer](https://www.realvnc.com/de/connect/download/viewer/) on your machine 
 * connect to raspberry-pi on local network 
 * Connect -> ```raspberrypi.local```
+
+
+[Magic Mirror 2 Module Documentation](https://docs.magicmirror.builders/development/introduction.html)

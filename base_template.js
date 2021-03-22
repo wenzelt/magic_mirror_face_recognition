@@ -1,13 +1,13 @@
 /* global Module */
 
 /* Magic Mirror
- * Module: {{MODULE_NAME}}
+ * Module: magic_mirror_face_recognition
  *
- * By {{AUTHOR_NAME}}
- * {{LICENSE}} Licensed.
+ * By Tom Wenzel
+ * MIT Licensed.
  */
 
-Module.register("{{MODULE_NAME}}", {
+Module.register("magic_mirror_face_recognition", {
 	defaults: {
 		updateInterval: 60000,
 		retryDelay: 5000
@@ -85,6 +85,7 @@ Module.register("{{MODULE_NAME}}", {
 	},
 
 	getDom: function() {
+		
 		var self = this;
 
 		// create element wrapper for show into the module
@@ -113,7 +114,10 @@ Module.register("{{MODULE_NAME}}", {
 
 			wrapper.appendChild(wrapperDataNotification);
 		}
+		
 		return wrapper;
+
+		
 	},
 
 	getScripts: function() {
@@ -122,7 +126,7 @@ Module.register("{{MODULE_NAME}}", {
 
 	getStyles: function () {
 		return [
-			"{{MODULE_NAME}}.css",
+			"magic_mirror_face_recognition.css",
 		];
 	},
 
@@ -143,12 +147,12 @@ Module.register("{{MODULE_NAME}}", {
 
 		// the data if load
 		// send notification to helper
-		this.sendSocketNotification("{{MODULE_NAME}}-NOTIFICATION_TEST", data);
+		this.sendSocketNotification("magic_mirror_face_recognition-NOTIFICATION_TEST", data);
 	},
 
 	// socketNotificationReceived from helper
 	socketNotificationReceived: function (notification, payload) {
-		if(notification === "{{MODULE_NAME}}-NOTIFICATION_TEST") {
+		if(notification === "magic_mirror_face_recognition-NOTIFICATION_TEST") {
 			// set dataNotification
 			this.dataNotification = payload;
 			this.updateDom();

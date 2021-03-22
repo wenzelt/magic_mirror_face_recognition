@@ -1,157 +1,146 @@
-/* global Module */
 
-/* Magic Mirror
- * Module: magic_mirror_face_recognition
- *
- * By Tom Wenzel
- * MIT Licensed.
- */
+'use strict';
+
 
 Module.register("magic_mirror_face_recognition", {
+
+    counter: null,
+	// Default module config.
 	defaults: {
-		updateInterval: 60000,
-		retryDelay: 5000
+        selfieInterval: 3,
+	},
+    
+	display: false,
+
+	cameraPreview: null,
+	snapshot: null,
+	camera: null,
+	image: null,
+	processing: false,
+	message: null,
+	commands: null,
+
+    getScripts: function() {
+		return ["webcam.js"];
 	},
 
-	requiresVersion: "2.1.0", // Required version of MagicMirror
+    start: function() { 
+		this.message = "Press action button to register personal Profile";
+        //this.sendSocketNotification('INIT_MAILER', this.config);
+    },
 
-	start: function() {
+	makeSelfie: function(){
 		var self = this;
-		var dataRequest = null;
-		var dataNotification = null;
-
-		//Flag for check if module is loaded
-		this.loaded = false;
-
-		// Schedule update timer.
-		this.getData();
-		setInterval(function() {
-			self.updateDom();
-		}, this.config.updateInterval);
-	},
-
-	/*
-	 * getData
-	 * function example return data and show it in the module wrapper
-	 * get a URL request
-	 *
-	 */
-	getData: function() {
-		var self = this;
-
-		var urlApi = "https://jsonplaceholder.typicode.com/posts/1";
-		var retry = true;
-
-		var dataRequest = new XMLHttpRequest();
-		dataRequest.open("GET", urlApi, true);
-		dataRequest.onreadystatechange = function() {
-			console.log(this.readyState);
-			if (this.readyState === 4) {
-				console.log(this.status);
-				if (this.status === 200) {
-					self.processData(JSON.parse(this.response));
-				} else if (this.status === 401) {
-					self.updateDom(self.config.animationSpeed);
-					Log.error(self.name, this.status);
-					retry = false;
-				} else {
-					Log.error(self.name, "Could not load data.");
-				}
-				if (retry) {
-					self.scheduleUpdate((self.loaded) ? -1 : self.config.retryDelay);
-				}
+		var timer = 1;
+		var interval = setInterval(function() {
+			if (timer === 4) {
+				clearInterval(interval);
+				self.createSnapshot();
 			}
-		};
-		dataRequest.send();
+			else {
+				self.counter.innerHTML = timer;
+				timer++;
+			}
+		}, 1000);
 	},
 
-
-	/* scheduleUpdate()
-	 * Schedule next update.
-	 *
-	 * argument delay number - Milliseconds before next update.
-	 *  If empty, this.config.updateInterval is used.
-	 */
-	scheduleUpdate: function(delay) {
-		var nextLoad = this.config.updateInterval;
-		if (typeof delay !== "undefined" && delay >= 0) {
-			nextLoad = delay;
-		}
-		nextLoad = nextLoad ;
+	createSnapshot: function() {
 		var self = this;
-		setTimeout(function() {
-			self.getData();
-		}, nextLoad);
+		this.processing = true;
+		Webcam.snap(function (data_uri, canvas, context) {
+          var data = data_uri;
+		  if (self.image == null){
+			    self.image = document.createElement("img");
+				
+				self.image.width = 640;
+				self.image.height = 480;
+				self.snapshot.appendChild(self.image);
+		  }
+		  self.image.src = data_uri;
+
+		  self.cameraPreview.style.display = 'none';
+		  //self.sendSocketNotification('SEND_EMAIL',  { config: self.config, dataUrl:data_uri } );
+		  self.commands.innerHTML = "Your selfie will be emailed to you";
+		  setTimeout(function(){
+			  self.commands.innerHTML = self.message;
+		  }, 3000);
+		  self.processing = false;
+		});
 	},
 
+	// Override dom generator.
 	getDom: function() {
-		var self = this;
 
-		// create element wrapper for show into the module
-		var wrapper = document.createElement("div");
-		// If this.dataRequest is not empty
-		if (this.dataRequest) {
-			var wrapperDataRequest = document.createElement("div");
-			// check format https://jsonplaceholder.typicode.com/posts/1
-			wrapperDataRequest.innerHTML = this.dataRequest.title;
+        var wrapper = document.createElement("div");
 
-			var labelDataRequest = document.createElement("label");
-			// Use translate function
-			//             this id defined in translations files
-			labelDataRequest.innerHTML = this.translate("TITLE");
+		if (this.display) {
+			// if (this.camera === null) {
 
+				this.camera = document.createElement("div");
+				this.counter = document.createElement("div")
+				this.counter.style = "text-align: center; padding-bottom: 10px;";
+				this.counter.className = "large normal";
 
-			wrapper.appendChild(labelDataRequest);
-			wrapper.appendChild(wrapperDataRequest);
+				this.camera.appendChild(this.counter);
+				this.cameraPreview = document.createElement("div");
+				this.camera.appendChild(this.cameraPreview);
+				this.snapshot = document.createElement("div");
+				this.camera.appendChild(this.snapshot)
+				this.commands = document.createElement("div");
+				this.commands.innerHTML = this.message;
+				this.commands.className = "small light dimmed";
+				this.commands.style = "padding-top: 10px;"
+				this.camera.appendChild(this.commands);
+
+				wrapper.appendChild(this.camera);
+
+				Webcam.set({
+					width: 640,
+					height: 480,
+					image_format: 'jpeg',
+					jpeg_quality: 90,
+					constraints: {
+						mandatory: {
+							minWidth: 640,
+							minHeight: 480
+						},
+						optional: [
+							{ minFrameRate: 60 }
+						]
+					}
+				});
+
+				Webcam.attach(this.cameraPreview);
+
+		}
+		else {
+			if (this.camera != null){
+				Webcam.reset();
+				this.camera.style = "visibility:hidden;";
+			}
+			
+		}
+		
+        return wrapper;
+	},
+
+    notificationReceived: function(notification, payload, sender) {
+		//if (notification === "SHOW_CAMERA" && this.display === false){
+		this.display = true;
+		this.updateDom(500);
+		//}
+
+        if (notification === "HIDE_CAMERA" && this.display == true){
+			this.display = false;
+			this.updateDom(500);
 		}
 
-		// Data from helper
-		if (this.dataNotification) {
-			var wrapperDataNotification = document.createElement("div");
-			// translations  + datanotification
-			wrapperDataNotification.innerHTML =  this.translate("UPDATE") + ": " + this.dataNotification.date;
-
-			wrapper.appendChild(wrapperDataNotification);
+        if (notification === "SELFIE"){
+			if (!this.processing && this.display){
+				this.makeSelfie();
+			}
 		}
-		return wrapper;
+
 	},
 
-	getScripts: function() {
-		return [];
-	},
-
-	getStyles: function () {
-		return [
-			"magic_mirror_face_recognition.css",
-		];
-	},
-
-	// Load translations files
-	getTranslations: function() {
-		//FIXME: This can be load a one file javascript definition
-		return {
-			en: "translations/en.json",
-			es: "translations/es.json"
-		};
-	},
-
-	processData: function(data) {
-		var self = this;
-		this.dataRequest = data;
-		if (this.loaded === false) { self.updateDom(self.config.animationSpeed) ; }
-		this.loaded = true;
-
-		// the data if load
-		// send notification to helper
-		this.sendSocketNotification("magic_mirror_face_recognition-NOTIFICATION_TEST", data);
-	},
-
-	// socketNotificationReceived from helper
-	socketNotificationReceived: function (notification, payload) {
-		if(notification === "magic_mirror_face_recognition-NOTIFICATION_TEST") {
-			// set dataNotification
-			this.dataNotification = payload;
-			this.updateDom();
-		}
-	},
 });

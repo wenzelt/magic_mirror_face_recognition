@@ -4,9 +4,9 @@ import numpy as np
 import cv2
 
 
-def get_persons_from_frame(frame: np.ndarray, known_face_encodings: List) -> Tuple[List, List]:
+def get_persons_from_frame(frame: np.ndarray, known_face_encodings: List[float]) -> Tuple[List[int], List[float]]:
     '''
-    :param frame: Camera frame in format height x width
+    :param frame: Camera frame in format height x width x 3
     :param known_face_encodings: Array of known face encodings
     :return: A list of user ids detected in the frame
     '''

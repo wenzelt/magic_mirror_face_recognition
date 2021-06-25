@@ -6,6 +6,13 @@ name = "pypi"
 [packages]
 opencv-python = "*"
 uvicorn = "*"
+face-recognition = "*"
+tinydb = "*"
+fastapi = "*"
+numpy = "*"
+pillow = "*"
+pytest = "*"
+image = "*"
 
 [dev-packages]
 

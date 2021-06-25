@@ -9,27 +9,26 @@ from src.util.db import init_db
 
 
 class TestStringMethods(unittest.TestCase):
-    def test_check_user(self):
+    def test_compare_user(self):
         import base64
 
-        image = Image.open("../lukas.jpg")
+        image = Image.open("src/test/lukas.jpeg")
 
         buffered = BytesIO()
         image.save(buffered, format="JPEG")
         encoded_string = base64.b64encode(buffered.getvalue())
 
-        asyncio.run(post_check_user(encoded_string))
+        assert asyncio.run(post_check_user(encoded_string)) == ([0], [0.0])
 
     def test_register_user(self):
         import base64
 
-        image = Image.open("../lukas.jpg")
+        image = Image.open("src/test/lukas.jpeg")
 
         buffered = BytesIO()
         image.save(buffered, format="JPEG")
         encoded_string = base64.b64encode(buffered.getvalue())
-
-        asyncio.run(post_register_user(encoded_string, "Lukas"))
+        assert asyncio.run(post_register_user(encoded_string, "Lukas")) == "success"
 
     def test_init_db(self):
         assert init_db("test_db.json") == [

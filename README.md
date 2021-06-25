@@ -2,7 +2,7 @@
 
 This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/).
 
-## Installation 
+## Installation
 1.Install Magic Mirror by running this command:
     ```bash -c  "$(curl -sL https://raw.githubusercontent.com/sdetweil/MagicMirror_scripts/master/raspberry.sh)"```
 
@@ -14,9 +14,16 @@ This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror
 
 5.To view the Mirror navigate to http://localhost:8080/ in your webbrowser.
 
-## Connect to local Magic Mirror via SSH 
+## Connect to local Magic Mirror via SSH
 1. run this command in shell: ````ssh pi@raspberrypi.local```` and input credentials
 2. The raspi is configured with VNC viewer. Connect using the above address and credentials
+
+
+## Installation
+1. Install all the dependencies from the PIPFILE
+2. ````pip install pipenv````
+3. ````pipenv sync````
+
 
 
 ## Using the module

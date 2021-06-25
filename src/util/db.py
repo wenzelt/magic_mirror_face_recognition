@@ -8,6 +8,7 @@ def query_db_for_encodings():
 
 def init_db(db_path: str):
     db = TinyDB(db_path)
+    breakpoint()
     encoding_table = db.table('encodings')
     encoding_table.insert({'type': 'apple', 'count': 7})
     encoding_table.insert({'type': 'peach', 'count': 3})
